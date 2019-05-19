@@ -1,4 +1,5 @@
 Monitors your MFL league and sends update to Telegram channel
+
 Requires config: watcherconfig.py in the form of:
 
 
