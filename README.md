@@ -1,7 +1,8 @@
 Monitors your MFL league and sends update to Telegram channel
 Requires config: watcherconfig.py in the form of:
 
------------
+
+```
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -46,5 +47,4 @@ mflwatcher = {
   }
 
 }
-
-----------
+```
