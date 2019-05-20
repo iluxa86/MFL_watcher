@@ -9,6 +9,8 @@ Requires config: watcherconfig.py in the form of:
 year = '2019'
 league_id = '74575'
 update_period_sec = 60
+tradewatcher_enabled = True
+draftwatcher_enabled = True
 
 # Telegram integration settings
 telegram = {
