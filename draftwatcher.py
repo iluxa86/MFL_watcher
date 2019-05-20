@@ -168,20 +168,30 @@ class MFLWatcher:
 
 
   def __convert_pick_to_message(self, pick, div_id):
+
+    message = ""
     pick_id = str(pick[0])
-    player = str(pick[1]['name'])
-    pos = str(pick[1]['position'])
-    team = str(pick[1]['team'])
+
     franchise = str(pick[2]['name'])
     comment = str(pick[3].encode('utf8')).replace('\n',' ')
     div_name = self.__div_map[div_id]
-    adj = random.choice(self.__adjectives)
-    verb = random.choice(self.__verbs)
 
-    message = "Division %s update!\n" \
-              "Under %s pick\nTeam \"%s\" %s " \
-              "%s %s from %s - %s\n" \
-              % (div_name, pick_id, franchise, verb, adj, pos, team, player)
+    # If None - no pick was made
+    if pick[1] != None:
+      player = str(pick[1]['name'])
+      pos = str(pick[1]['position'])
+      team = str(pick[1]['team'])
+      adj = random.choice(self.__adjectives)
+      verb = random.choice(self.__verbs)
+
+      message = "Division %s update!\n" \
+                "Under %s pick\nTeam \"%s\" %s " \
+                "%s %s from %s - %s\n" \
+                % (div_name, pick_id, franchise, verb, adj, pos, team, player)
+    else:
+      message = "Division %s update!\n" \
+                "(%s) No pick was made by team \"%s\"\n" \
+                % (div_name, pick_id, franchise)
 
     if comment != "":
       message = message + "Comment: " + comment
