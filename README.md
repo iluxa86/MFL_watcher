@@ -1,24 +1,29 @@
 Monitors your MFL league and sends update to Telegram channel
+Supported updates:
+- draft events
+- trade events
 
 Requires config: watcherconfig.py in the form of:
 
-
 ```
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+year = '2019'
+league_id = '74575'
+update_period_sec = 60
 
 # Telegram integration settings
 telegram = {
-  'chatname' : '',
-  'token' : '',
-  'api_url' : ''
+  'chatname' : '@<Telegram_name>',
+  'token' : '<bot_token>',
+  'api_url' : 'https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s'
 }
 
+# DONT NEED TO TOUCH THESE
 mflwatcher = {
   'api' : {
-    'player' : "http://www62.myfantasyleague.com/2019/export?TYPE=players&DETAILS=&SINCE=&PLAYERS=%s&JSON=1",
-    'draft' : "http://www62.myfantasyleague.com/2019/export?TYPE=draftResults&L=74575&JSON=1",
-    'league' : "http://www62.myfantasyleague.com/2019/export?TYPE=league&L=74575&APIKEY=&JSON=1"
+    'player' : "http://www62.myfantasyleague.com/" + year + "/export?TYPE=players&DETAILS=&SINCE=&PLAYERS=%s&JSON=1",
+    'draft' : "http://www62.myfantasyleague.com/%s/export?TYPE=draftResults&L=%s&JSON=1" % (year, league_id),
+    'league' : "http://www62.myfantasyleague.com/%s/export?TYPE=league&L=%s&APIKEY=&JSON=1" % (year, league_id),
+    'trade' : "http://www62.myfantasyleague.com/%s/export?TYPE=transactions&L=%s&APIKEY=&W=&TRANS_TYPE=TRADE&FRANCHISE=&DAYS=1&COUNT=&JSON=1" % (year, league_id)
   },
 
   # NOT REALLY USED NOW
@@ -30,14 +35,18 @@ mflwatcher = {
 
   'files' : {
     'log' : 'draftwatcher.log',
-    'picks' : 'picks.txt'
+    'picks' : 'picks.txt',
+    'trade' : 'trade.txt'
   },
 
   'draft_adjectives': ('young','active','energetic','muscular','powerful','strong','vigorous','dynamic','tremendous',
-  'superior', 'brilliant', 'talented', 'gifted', 'magnificent', 'natural', 'prominent', 'superb'),
+  'superior', 'brilliant', 'talented', 'gifted', 'magnificent', 'natural', 'prominent', 'superb', 'dominant',
+  'outstanding', 'virtious', 'vivacious', 'spirited', 'all-round', 'promising', 'competent', 'temperamental',
+  'valiant', 'modest', 'skilled', 'remarkable'),
 
   'draft_verbs' : ('picks', 'selects', 'steals', 'chooses'),
 
+  # NEED TO UPDATE ALIASES FOR YOU DIVISIONS
   'div_map' : {
     "DIVISION00": "GREAT [#great]",
     "DIVISION01": "NEXT GEN [#nextgen]",
@@ -46,6 +55,5 @@ mflwatcher = {
     "DIVISION04": "RUSSEL'5 [#russel5]",
     "DIVISION05": "LEG VI [#legVI]"
   }
-
 }
 ```
