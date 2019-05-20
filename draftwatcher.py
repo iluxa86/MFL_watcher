@@ -95,11 +95,10 @@ class MFLWatcher:
 
   def get_draft_update(self):
 
+    draft_updates = list()
     try:
       resp = requests.get(self.__api_get_draft).json()
       json = resp['draftResults']['draftUnit']
-
-      draft_updates = list()
 
       for div_draft in json:
         div_id = div_draft['unit']
@@ -163,6 +162,9 @@ class MFLWatcher:
       f.close()
     except:
       self.__log("NO STORE FILE. NEW ONE WILL BE CREATED")
+      self.__log(sys.exc_info()[0])
+      self.__log(traceback.format_exc())
+      raise Exception("CANNOT LOAD PICKS FILE")
 
 
   def __convert_pick_to_message(self, pick, div_id):
