@@ -59,6 +59,7 @@ class MFLWatcher:
 
   def __init__(self):
     self.__log_file = self.__open_log()
+    self.__log("STARTING MFL WATCHER")
     self.__get_league()
     self.__get_all_players()
     self.__restore_last_picks()
@@ -110,6 +111,7 @@ class MFLWatcher:
           draft_updates.append(self.__convert_pick_to_message(new_pick, div_id))
           self.__log("FOUND NEW PICK FOR " + div_id + " : " + str(new_pick))
 
+        # This section just needed for logging
         if (div_id in self.__last_picks_dict):
           last_known_pick = self.__last_picks_dict[div_id]
         else:
@@ -124,8 +126,8 @@ class MFLWatcher:
     except:
       self.__log("UNABLE TO FETCH DRAFT PAGE")
       self.__log(sys.exc_info()[0])
-      traceback.print_exc(file=sys.stdout)
-      return False
+      self.__log(traceback.format_exc())
+      return draft_updates
 
   def get_player_by_id(self, id):
     # Getting id from cache
@@ -143,7 +145,7 @@ class MFLWatcher:
     f= open(self.__picks_file,"w+")
 
     for entry in self.__last_picks_dict:
-      record = "%s %s" % (entry, self.__last_picks_dict[entry])
+      record = "%s %s\n" % (entry, self.__last_picks_dict[entry])
       f.write(record)
     f.close()
 
@@ -266,7 +268,7 @@ def main():
 
     for update in updates:
       bot.send_message(update)
-      print update
+      # print update
     sleep(60)
 
 main()
