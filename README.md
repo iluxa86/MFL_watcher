@@ -11,6 +11,7 @@ league_id = '74575'
 update_period_sec = 60
 tradewatcher_enabled = True
 draftwatcher_enabled = True
+daemon = True
 
 # Telegram integration settings
 telegram = {
