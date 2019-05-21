@@ -84,7 +84,7 @@ class trade_watcher:
       self.__log.log("NO TRADES STORE FILE. STOPPING")
       self.__log.log(sys.exc_info()[0])
       self.__log.log(traceback.format_exc())
-      raise Exception("CANNOT LOAD TRADES FILE")
+      raise Exception("CANNOT LOAD TRADES FILE: " + self.__trade_file)
 
 
   def __convert_transaction_to_message(self, transaction):

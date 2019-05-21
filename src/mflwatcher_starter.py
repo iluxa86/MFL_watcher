@@ -36,7 +36,7 @@ def mflwatcher_daemon():
   print "Working dir: " + dir_path
   with daemon.DaemonContext(
     working_directory=dir_path,
-    pidfile=pidfile.TimeoutPIDLockFile(dir_path + "/mflwatcher.pid")
+    pidfile=pidfile.TimeoutPIDLockFile(dir_path + "/var/mflwatcher.pid")
   ) as context:
     mflwatcher()
 

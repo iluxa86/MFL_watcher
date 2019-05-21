@@ -87,7 +87,7 @@ class draft_watcher:
       self.__log.log("NO PICKS STORE FILE. STOPPING")
       self.__log.log(sys.exc_info()[0])
       self.__log.log(traceback.format_exc())
-      raise Exception("CANNOT LOAD PICKS FILE")
+      raise Exception("CANNOT LOAD PICKS FILE: " + self.__picks_file)
 
   def __convert_pick_to_message(self, pick, div_id):
 

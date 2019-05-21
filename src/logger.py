@@ -1,5 +1,6 @@
 import watcherconfig as cfg
 import datetime
+import os
 
 class logger:
   __classname = None
@@ -26,5 +27,6 @@ class logger:
       self.__log_file.write(record + "\n")
       self.__log_file.flush()
     except:
+      print "Working dir: " + os.getcwd()
       print "CANNOT WRITE TO LOG FILE"
       self.__open_log()

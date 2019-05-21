@@ -3,60 +3,42 @@ Supported updates:
 - draft events
 - trade events
 
-Requires config: watcherconfig.py in the form of:
+Requires config: secretconfig.py to be places in src folder:
 
 ```
-year = '2019'
-league_id = '74575'
-update_period_sec = 60
-tradewatcher_enabled = True
-draftwatcher_enabled = True
-daemon = True
+# Your league id in MFL
+league_id = 'XXXXX'
 
-# Telegram integration settings
-telegram = {
-  'chatname' : '@<Telegram_name>',
-  'token' : '<bot_token>',
-  'api_url' : 'https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s'
+# Chat id in Telegram
+telegram_chat = '@ChatName'
+
+# Bot token id in telegram - https://core.telegram.org/bots
+telegram_token = 'token'
+
+# You mfl login/pwd - but not actually required now
+# MFL provide a lot of info without authorization
+mfl_login = ''
+mfl_pwd = ''
+
+# Map of your MFL division names from DIVISION0X to your custom name
+div_names_map = {
+  "DIVISION00": "GREAT DIV",
+  "DIVISION01": "NOT GREAT DIV"
 }
 
-# DONT NEED TO TOUCH THESE
-mflwatcher = {
-  'api' : {
-    'player' : "http://www62.myfantasyleague.com/" + year + "/export?TYPE=players&DETAILS=&SINCE=&PLAYERS=%s&JSON=1",
-    'draft' : "http://www62.myfantasyleague.com/%s/export?TYPE=draftResults&L=%s&JSON=1" % (year, league_id),
-    'league' : "http://www62.myfantasyleague.com/%s/export?TYPE=league&L=%s&APIKEY=&JSON=1" % (year, league_id),
-    'trade' : "http://www62.myfantasyleague.com/%s/export?TYPE=transactions&L=%s&APIKEY=&W=&TRANS_TYPE=TRADE&FRANCHISE=&DAYS=1&COUNT=&JSON=1" % (year, league_id)
-  },
+```
 
-  # NOT REALLY USED NOW
-  'login' : {
-    'url' : 'https://api.myfantasyleague.com/2019/login?USERNAME=%s&PASSWORD=%s&XML=1',
-    'login' : '',
-    'password' : ''
-  },
+Control scripts are in bin folder
+```
+# Starts script
+./bin/start.sh
 
-  'files' : {
-    'log' : 'draftwatcher.log',
-    'picks' : 'picks.txt',
-    'trade' : 'trade.txt'
-  },
+# checks status
+./bin/status.sh
 
-  'draft_adjectives': ('young','active','energetic','muscular','powerful','strong','vigorous','dynamic','tremendous',
-  'superior', 'brilliant', 'talented', 'gifted', 'magnificent', 'natural', 'prominent', 'superb', 'dominant',
-  'outstanding', 'virtious', 'vivacious', 'spirited', 'all-round', 'promising', 'competent', 'temperamental',
-  'valiant', 'modest', 'skilled', 'remarkable'),
+# stops scripts
+./bin/stop.sh
 
-  'draft_verbs' : ('picks', 'selects', 'steals', 'chooses'),
-
-  # NEED TO UPDATE ALIASES FOR YOU DIVISIONS
-  'div_map' : {
-    "DIVISION00": "GREAT [#great]",
-    "DIVISION01": "NEXT GEN [#nextgen]",
-    "DIVISION02": "3RD & LONG [#3long]",
-    "DIVISION03": "FOUR SEASONS [#4seasons]",
-    "DIVISION04": "RUSSEL'5 [#russel5]",
-    "DIVISION05": "LEG VI [#legVI]"
-  }
-}
+# Logs are written to
+./log/
 ```
