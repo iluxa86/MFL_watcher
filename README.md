@@ -42,3 +42,13 @@ Control scripts are in bin folder
 # Logs are written to
 ./log/
 ```
+
+If you are running watcher for the first time you need to create two files.
+They are not created automatically as a protection mechanism.
+```
+mkdir -p var
+touch var/picks.txt
+touch var/trade.txt
+```
+These are the files where last processed trades and picks are stored.
+If you start with empty files bot will read all avail to him trades and picks.
