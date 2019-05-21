@@ -30,7 +30,7 @@ mflwatcher = {
   },
 
   'files' : {
-    'log' : 'log/draftwatcher.log',
+    'log' : 'log/mflwatcher.log',
     'picks' : 'var/picks.txt',
     'trade' : 'var/trade.txt'
   },
