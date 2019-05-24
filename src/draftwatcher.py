@@ -40,19 +40,22 @@ class draft_watcher:
       for div_draft in json:
         div_id = div_draft['unit']
 
-        new_picks = self.__find_new_picks_for_div(div_id, div_draft)
-        self.__log.log("NEW PICKS FOUND FOR " + div_id + " : " + str(len(new_picks)))
+        # We want to see updates only for divisions from the map
+        if (self.__mflcache.get_divname_by_id(div_id)):
 
-        for new_pick in new_picks:
-          draft_updates.append(self.__convert_pick_to_message(new_pick, div_id))
-          self.__log.log("FOUND NEW PICK FOR " + div_id + " : " + str(new_pick))
+          new_picks = self.__find_new_picks_for_div(div_id, div_draft)
+          self.__log.log("NEW PICKS FOUND FOR " + div_id + " : " + str(len(new_picks)))
 
-        # This section just needed for logging
-        if (div_id in self.__last_picks_dict):
-          last_known_pick = self.__last_picks_dict[div_id]
-        else:
-          last_known_pick = None
-        self.__log.log("LAST KNOWN PICK FOR " + div_id + " : " + str(last_known_pick))
+          for new_pick in new_picks:
+            draft_updates.append(self.__convert_pick_to_message(new_pick, div_id))
+            self.__log.log("FOUND NEW PICK FOR " + div_id + " : " + str(new_pick))
+
+          # This section just needed for logging
+          if (div_id in self.__last_picks_dict):
+            last_known_pick = self.__last_picks_dict[div_id]
+          else:
+            last_known_pick = None
+          self.__log.log("LAST KNOWN PICK FOR " + div_id + " : " + str(last_known_pick))
 
       # Dump last picks into file
       self.__store_last_picks()

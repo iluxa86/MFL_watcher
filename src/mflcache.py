@@ -40,7 +40,7 @@ class mfl_cache:
     if (div_id in self.__div_map):
       return self.__div_map[div_id]
     else:
-      return "UNKNOWN"
+      return None
 
   def __get_all_players(self):
     try:

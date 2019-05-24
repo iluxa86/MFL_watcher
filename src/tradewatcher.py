@@ -45,12 +45,15 @@ class trade_watcher:
         ts = t['timestamp']
 
         if ts > self.__last_trade_ts:
-          trade_updates.append(self.__convert_transaction_to_message(t))
-
           # noting the latest trade ts
           if ts > new_last_trade_ts: new_last_trade_ts = ts
-
           self.__log.log("FOUND NEW TRADE (new ts: %s): %s" % (new_last_trade_ts,t))
+
+          # Message can be none when it is not in div map
+          # Then it is filtered out, it is a feature
+          trade_message = self.__convert_transaction_to_message(t)
+          if (trade_message != None):
+            trade_updates.append(trade_message)
 
         else:
           self.__log.log("SKIPPING TRADE: %s" % t)
@@ -87,6 +90,7 @@ class trade_watcher:
       raise Exception("CANNOT LOAD TRADES FILE: " + self.__trade_file)
 
 
+  # Returns None if update should not exist
   def __convert_transaction_to_message(self, transaction):
 
     f1 = self.__mflcache.get_franchise_by_id(transaction['franchise'])
@@ -101,7 +105,12 @@ class trade_watcher:
     message = "Trade Alert for %s division!\n" % (div_name) + \
               "Franchise %s gave up:\n%s\n\nFranchise %s gave up:\n%s\n\n#trade" % (f1['name'], a1, f2['name'], a2)
 
-    return message
+    if (div_name):
+      self.__log.log("Sending Trade update: " + message.replace("\n"," "))
+      return message
+    else:
+      self.__log.log("Dropping Trade update: " + message.replace("\n"," "))
+      return None
 
   def __parse_trade_assets(self, trade_asset_string):
     assets = trade_asset_string.split(",")
