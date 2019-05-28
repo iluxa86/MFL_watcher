@@ -69,8 +69,8 @@ class mfl_cache:
       for f in f_data:
         id = f['id']
         f_dict = dict()
-        f_dict['name'] = f['name']
-        f_dict['division'] = f['division']
+        f_dict['name'] = str(f['name'].encode('utf8'))
+        f_dict['division'] = str(f['division'].encode('utf8'))
         self.__franchises_dict[id] = f_dict
 
       self.__log.log("FRANCHISES FETCHED")
