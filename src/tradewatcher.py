@@ -38,7 +38,14 @@ class trade_watcher:
     trade_updates = list()
     try:
       resp = requests.get(self.__api_get_trade).json()
-      json = resp['transactions']['transaction']
+
+      json = []
+      if 'transcation' in resp['transactions']:
+        json = resp['transactions']['transaction']
+      else:
+        # No new trades found
+        self.__log.log("NO TRADES GOT FROM API")
+
       new_last_trade_ts = self.__last_trade_ts
 
       for t in json:
