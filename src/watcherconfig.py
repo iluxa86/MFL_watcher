@@ -4,7 +4,7 @@ year = '2019'
 league_id = secret.league_id
 update_period_sec = 60
 tradewatcher_enabled = True
-draftwatcher_enabled = True
+draftwatcher_enabled = False
 daemon = True
 
 # Telegram integration settings
