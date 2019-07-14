@@ -11,4 +11,6 @@ then
   echo "ALREADY STARTED. PID: "$(cat ./var/mflwatcher.pid)
 else
   python ./src/mflwatcher_starter.py
+  sleep 1
+  ./bin/status.sh
 fi
