@@ -40,8 +40,13 @@ class trade_watcher:
       resp = requests.get(self.__api_get_trade).json()
 
       json = []
-      if 'transcation' in resp['transactions']:
+      if 'transaction' in resp['transactions']:
         json = resp['transactions']['transaction']
+
+        # Corner case with only one trade
+        # MFL reports object not as list then
+        if isinstance(json, dict):
+          json = [json]
       else:
         # No new trades found
         self.__log.log("NO TRADES GOT FROM API")
