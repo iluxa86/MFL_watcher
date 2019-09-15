@@ -18,15 +18,15 @@ class logger:
       try:
         return open(self.__log_filename,"a+")
       except:
-        print "CANNOT OPEN LOG FILE"
+        print("CANNOT OPEN LOG FILE")
 
   def log(self, log_message):
     record =  "%s [%s] %s" % (str(datetime.datetime.now()), self.__classname, log_message)
     try:
-      print record
+      print(record)
       self.__log_file.write(record + "\n")
       self.__log_file.flush()
     except:
-      print "Working dir: " + os.getcwd()
-      print "CANNOT WRITE TO LOG FILE"
+      print("Working dir: " + os.getcwd())
+      print("CANNOT WRITE TO LOG FILE")
       self.__open_log()

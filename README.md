@@ -2,6 +2,7 @@ Monitors your MFL league and sends update to Telegram channel
 Supported updates:
 - draft events
 - trade events
+- waiver events
 
 Requires config: secretconfig.py to be places in src folder:
 
@@ -25,6 +26,9 @@ div_names_map = {
   "DIVISION00": "GREAT DIV",
   "DIVISION01": "NOT GREAT DIV"
 }
+
+# List of divisions NOT to send updates to (filters out)
+tradewatcher_filterout_divs = ['DIVISION00']
 
 ```
 

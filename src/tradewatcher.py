@@ -11,6 +11,7 @@ from mflcache import mfl_cache
 
 class trade_watcher:
   __api_get_trade = cfg.mflwatcher['api']['trade']
+  __div_filter = cfg.mflwatcher['tradewatcher_filter']
 
   # MFL info cache
   __mflcache = None
@@ -18,9 +19,6 @@ class trade_watcher:
 
   __trade_file = cfg.mflwatcher['files']['trade']
   __log_file = None
-
-  __adjectives = cfg.mflwatcher['draft_adjectives']
-  __verbs = cfg.mflwatcher['draft_verbs']
 
   def __init__(self, mflcache = None):
     self.__log = logger(self.__class__)
@@ -117,7 +115,7 @@ class trade_watcher:
     message = "Trade Alert for %s division!\n" % (div_name) + \
               "Franchise %s gave up:\n%s\n\nFranchise %s gave up:\n%s\n\n#trade" % (f1['name'], a1, f2['name'], a2)
 
-    if (div_name):
+    if (div_id not in self.__div_filter):
       self.__log.log("Sending Trade update: " + message.replace("\n"," "))
       return message
     else:
