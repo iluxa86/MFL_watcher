@@ -56,3 +56,10 @@ touch var/trade.txt
 ```
 These are the files where last processed trades and picks are stored.
 If you start with empty files bot will read all avail to him trades and picks.
+
+You also need to install python3 libs:
+```
+pip3 install python-daemon
+pip3 install requests
+pip3 install schedule
+```

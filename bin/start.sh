@@ -10,7 +10,7 @@ if [ -e ./var/mflwatcher.pid ]
 then
   echo "ALREADY STARTED. PID: "$(cat ./var/mflwatcher.pid)
 else
-  python ./src/mflwatcher_starter.py
+  python3 ./src/mflwatcher_starter.py
   sleep 3
   ./bin/status.sh
 fi

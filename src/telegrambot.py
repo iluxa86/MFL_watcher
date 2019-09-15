@@ -15,7 +15,7 @@ class telegram_bot():
     self.__log = logger(self.__class__)
 
   def send_message(self, message):
-    encoded_message = urllib.quote_plus(message)
+    encoded_message = urllib.parse.quote_plus(message)
     self.__log.log("SENDING MESSAGE WITH LENGTH: %s" % len(encoded_message))
     url = self.__api_url % (self.__bot_token, self.__chat_name, encoded_message)
 
