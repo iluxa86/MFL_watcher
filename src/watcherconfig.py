@@ -6,6 +6,7 @@ update_period_sec = 60
 tradewatcher_enabled = True
 draftwatcher_enabled = False
 waiverwatcher_enabled = True
+weeksummarywatcher_enabled = True
 daemon = True
 
 # Telegram integration settings
@@ -19,13 +20,18 @@ telegram = {
 # Runs only according to this schedule
 waiverwatcher_schedule = schedule.every().wednesday.at("02:10")
 
+# Weeksummarywatcher schedule
+# Runs only according to this schedule
+weeksummarywatcher_schedule = schedule.every().tuesday.at("20:00")
+
 mflwatcher = {
   'api' : {
     'player' : "http://www62.myfantasyleague.com/" + year + "/export?TYPE=players&DETAILS=&SINCE=&PLAYERS=%s&JSON=1",
     'draft' : "http://www62.myfantasyleague.com/%s/export?TYPE=draftResults&L=%s&JSON=1" % (year, league_id),
     'league' : "http://www62.myfantasyleague.com/%s/export?TYPE=league&L=%s&APIKEY=&JSON=1" % (year, league_id),
     'trade' : "http://www62.myfantasyleague.com/%s/export?TYPE=transactions&L=%s&APIKEY=&W=&TRANS_TYPE=TRADE&FRANCHISE=&DAYS=1&COUNT=&JSON=1" % (year, league_id),
-    'waiver' : "http://www62.myfantasyleague.com/%s/export?TYPE=transactions&L=%s&APIKEY=&W=&TRANS_TYPE=BBID_WAIVER&FRANCHISE=&DAYS=6&COUNT=&JSON=1" % (year, league_id)
+    'waiver' : "http://www62.myfantasyleague.com/%s/export?TYPE=transactions&L=%s&APIKEY=&W=&TRANS_TYPE=BBID_WAIVER&FRANCHISE=&DAYS=6&COUNT=&JSON=1" % (year, league_id),
+    'results' : "http://www62.myfantasyleague.com/%s/export?TYPE=weeklyResults&L=%s&APIKEY=&JSON=1" % (year, league_id)
   },
 
   # NOT REALLY USED NOW

@@ -3,6 +3,7 @@ Supported updates:
 - draft events
 - trade events
 - waiver events
+- week summary
 
 Requires config: secretconfig.py to be places in src folder:
 

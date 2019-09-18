@@ -60,7 +60,6 @@ class waiver_watcher:
     for div in waivers_dict.keys():
       division_update = []
       division_update.append("Division: %s:" % div)
-      #map(lambda w : division_update.append(w), waivers_dict[div])
       for update in waivers_dict[div]:
         division_update.append(update)
       updates_list.append('\n'.join(division_update))
