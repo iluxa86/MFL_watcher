@@ -99,7 +99,7 @@ class weeksummary_watcher:
       result.append("Please find #summary for week %s\n" % week)
       result.append(self.__convert_message_1franchise(highscorer, 'HIGHSCORER'))
       result.append(self.__convert_message_1franchise(lowscorer, 'LOWSCORER'))
-      result.append(self.__convert_message_1franchise(looser, 'LOOSER'))
+      result.append(self.__convert_message_1franchise(looser, 'HEARTBREAK'))
       result.append(self.__convert_message_1franchise(lucker, 'LUCKER'))
       result.append(self.__convert_message_2franchises(rivalry, 'RIVALRY', 'Margin'))
       result.append(self.__convert_message_2franchises(blowout, 'BLOWOUT', 'Margin'))
