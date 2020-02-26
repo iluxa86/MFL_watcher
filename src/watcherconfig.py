@@ -1,6 +1,6 @@
 import secretconfig as secret
 import schedule
-year = '2019'
+year = '2020'
 league_id = secret.league_id
 update_period_sec = 60
 tradewatcher_enabled = True
