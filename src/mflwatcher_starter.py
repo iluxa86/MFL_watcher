@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import watcherconfig as cfg
-from telegrambot import telegram_bot
+from telegrambot import TelegramBot
 from mflcache import mfl_cache
 from draftwatcher import draft_watcher
 from tradewatcher import trade_watcher
@@ -14,9 +14,9 @@ import schedule
 from daemon import pidfile
 
 def mflwatcher():
-  bot = telegram_bot()
+  bot = TelegramBot()
   cache = mfl_cache()
-  dw = draft_watcher(cache)
+  dw = draft_watcher(cache, search_images=cfg.draftwatcher_images_enabled)
   tw = trade_watcher(cache)
   ww = waiver_watcher(cache)
   weekly_summary = weeksummary_watcher(cache)
@@ -30,15 +30,17 @@ def mflwatcher():
 
   # Permanently checking events
   while True:
-    if (cfg.draftwatcher_enabled):
+    if cfg.draftwatcher_enabled:
       updates = dw.get_draft_update()
       for update in updates:
-        bot.send_message(update)
+        bot.send_message(update[0], binary_image=update[1])
+        sleep(10)
 
-    if (cfg.tradewatcher_enabled):
+    if cfg.tradewatcher_enabled:
       updates = tw.get_trade_update()
       for update in updates:
         bot.send_message(update)
+        sleep(10)
 
     schedule.run_pending()
     sleep(cfg.update_period_sec)

@@ -5,6 +5,7 @@ import random
 import watcherconfig as cfg
 from logger import logger
 from mflcache import mfl_cache
+from image_provider import ImageProvider
 
 class draft_watcher:
   __api_get_draft = cfg.mflwatcher['api']['draft']
@@ -13,20 +14,26 @@ class draft_watcher:
   __mflcache = None
   __last_picks_dict = dict()
 
+  # Image provider
+  __image_provider = None
+
   __picks_file = cfg.mflwatcher['files']['picks']
   __log_file = None
 
   __adjectives = cfg.mflwatcher['draft_adjectives']
   __verbs = cfg.mflwatcher['draft_verbs']
 
-  def __init__(self, mflcache = None):
+  def __init__(self, mflcache=None, search_images=cfg.draftwatcher_images_enabled):
     self.__log = logger(self.__class__)
     self.__log.log("STARTING MFL WATCHER")
 
-    if (mflcache == None):
+    if mflcache is None:
       self.__mflcache = mfl_cache()
     else:
       self.__mflcache = mflcache
+
+    if search_images:
+      self.__image_provider = ImageProvider()
 
     self.__restore_last_picks()
 
@@ -98,30 +105,35 @@ class draft_watcher:
     pick_id = str(pick[0])
 
     franchise = str(pick[2]['name'])
-    comment = str(pick[3].encode('utf8')).replace('\n',' ')
+    comment = str(pick[3]).replace('\n',' ')
     div_name = self.__mflcache.get_divname_by_id(div_id)
 
+    player_image = None
     # If None - no pick was made
     if pick[1] != None:
-      player = str(pick[1]['name'])
+      player_arr = str(pick[1]['name']).split(',')
+      player = player_arr[1] + ' ' + player_arr[0]
       pos = str(pick[1]['position'])
       team = str(pick[1]['team'])
       adj = random.choice(self.__adjectives)
       verb = random.choice(self.__verbs)
 
-      message = "Division %s update!\n" \
-                "Under %s pick\nTeam \"%s\" %s " \
-                "%s %s from %s - %s\n" \
-                % (div_name, pick_id, franchise, verb, adj, pos, team, player)
+      message = "Division <b>%s</b> update!\n" \
+                "Under <b>%s</b> pick\nTeam \"<b>%s</b>\" %s \n" \
+                "%s %s <b>%s</b> from %s\n" \
+                % (div_name, pick_id, franchise, verb, adj, pos, player, team)
+
+      if self.__image_provider:
+        player_image = self.__image_provider.get_player_image(player)
     else:
       message = "Division %s update!\n" \
                 "(%s) No pick was made by team \"%s\"\n" \
                 % (div_name, pick_id, franchise)
 
     if comment != "":
-      message = message + "Comment: " + comment
+      message = message + "<i>Comment</i>: " + comment
 
-    return message
+    return (message, player_image)
 
   def __find_new_picks_for_div(self, div_id, draft_unit_dict):
     picks = draft_unit_dict['draftPick']

@@ -31,7 +31,13 @@ div_names_map = {
 # List of divisions NOT to send updates to (filters out)
 tradewatcher_filterout_divs = ['DIVISION00']
 
+# Google Search API token to search for images
+imageprovider_api_key = 'AIzaSyDK3Sj6HA-Ge0hcHPOnHGDDvay0mzuQNFQ'
+imageprovider_search_engine = '011676440456467540673:msftrr8ivvq'
 ```
+
+If you want to use image search configure search API as explained here:
+https://pypi.org/project/Google-Images-Search/
 
 Control scripts are in bin folder
 ```
@@ -63,4 +69,12 @@ You also need to install python3 libs:
 pip3 install python-daemon
 pip3 install requests
 pip3 install schedule
+pip3 install Pillow
+pip3 install Google-Images-Search
+pip3 install python-telegram-bot
+```
+
+If you run it on Windows you also need to install
+```
+pip3 install windows-curses
 ```
