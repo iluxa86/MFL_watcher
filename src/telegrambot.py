@@ -1,12 +1,9 @@
 import watcherconfig as cfg
-import requests
-import urllib
 import sys
 from logger import logger
 import traceback
 import telegram
 import time
-from image_provider import ImageProvider
 
 class TelegramBot():
     __log = None
