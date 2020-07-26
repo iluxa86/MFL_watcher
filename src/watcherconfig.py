@@ -4,11 +4,13 @@ year = '2020'
 league_id = secret.league_id
 update_period_sec = 60
 tradewatcher_enabled = True
-draftwatcher_enabled = True
+draftwatcher_enabled = False
 draftwatcher_images_enabled = True
 waiverwatcher_enabled = True
 weeksummarywatcher_enabled = True
-daemon = True
+
+# For docker it should be False
+daemon = False
 
 # Telegram integration settings
 telegram = {

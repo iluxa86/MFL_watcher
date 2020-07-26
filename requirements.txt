@@ -1,0 +1,6 @@
+python-daemon
+requests
+schedule
+Pillow
+Google-Images-Search
+python-telegram-bot
