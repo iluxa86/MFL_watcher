@@ -66,15 +66,15 @@ If you start with empty files bot will read all avail to him trades and picks.
 
 You also need to install python3 libs:
 ```
-pip3 install python-daemon
-pip3 install requests
-pip3 install schedule
-pip3 install Pillow
-pip3 install Google-Images-Search
-pip3 install python-telegram-bot
+pip3 install -r requirements.txt
 ```
 
 If you run it on Windows you also need to install
 ```
 pip3 install windows-curses
+```
+
+If you are running in a docker:
+```
+docker build mfl-watcher -t mfl-watcher
 ```
