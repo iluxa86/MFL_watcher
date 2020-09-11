@@ -20,6 +20,5 @@ then
   done
 fi
 
-rm var/mflwatcher.pid
+rm -f var/mflwatcher.pid
 python3 ./src/mflwatcher_starter.py
-
