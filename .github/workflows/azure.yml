@@ -30,7 +30,7 @@ jobs:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
             name: mfl-watcher
-            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }a}
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
             cpu: 1
             memory: 1
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
