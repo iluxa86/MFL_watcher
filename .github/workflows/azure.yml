@@ -23,3 +23,21 @@ jobs:
         - run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+
+        - name: 'Deploy to Azure Container Instances'
+          uses: 'azure/aci-deploy@v1'
+          with:
+            resource-group: ${{ secrets.RESOURCE_GROUP }}
+            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+            name: mfl-watcher
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }a}
+            cpu: 1
+            memory: 1
+            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+            azure-file-volume-account-name: ${{ secrets.VOLUME_ACCOUNT_NAME }}
+            azure-file-volume-account-key: ${{ secrets.VOLUME_ACCOUNT_KEY }}
+            azure-file-volume-share-name: 'mflwatcher-storage'
+            azure-file-volume-mount-path: '/app/storage/'
+            location: 'eastus'
