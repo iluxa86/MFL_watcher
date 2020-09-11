@@ -8,10 +8,13 @@ import re
 import watcherconfig as cfg
 from logger import logger
 from mflcache import mfl_cache
+from image_drawer import ImageDrawer
 
 class trade_watcher:
   __api_get_trade = cfg.mflwatcher['api']['trade']
   __div_filter = cfg.mflwatcher['tradewatcher_filter']
+  __div_image_files_map = cfg.mflwatcher['div_images']
+  __image_font_file = cfg.mflwatcher['image_font_file']
 
   # MFL info cache
   __mflcache = None
@@ -61,7 +64,7 @@ class trade_watcher:
 
           # Message can be none when it is not in div map
           # Then it is filtered out, it is a feature
-          trade_message = self.__convert_transaction_to_message(t)
+          trade_message = self.__convert_transaction_to_update(t)
           if (trade_message != None):
             trade_updates.append(trade_message)
 
@@ -101,7 +104,7 @@ class trade_watcher:
 
 
   # Returns None if update should not exist
-  def __convert_transaction_to_message(self, transaction):
+  def __convert_transaction_to_update(self, transaction):
 
     f1 = self.__mflcache.get_franchise_by_id(transaction['franchise'])
     a1 = self.__parse_trade_assets(transaction['franchise1_gave_up'])
@@ -112,14 +115,19 @@ class trade_watcher:
     div_id = "DIVISION" + f1['division']
     div_name = self.__mflcache.get_divname_by_id(div_id)
 
+    image = None
+    if cfg.tradewatcher_images_enabled:
+      id = ImageDrawer(self.__div_image_files_map[div_id], self.__image_font_file)
+      image = id.put_teams_on_image(f1['name'], f2['name'], binary= True)
+
     message = "Trade Alert for %s division!\n" % (div_name) + \
               "Franchise %s gave up:\n%s\n\nFranchise %s gave up:\n%s\n\n#trade" % (f1['name'], a1, f2['name'], a2)
 
     if (div_id not in self.__div_filter):
-      self.__log.log("Sending Trade update: " + message.replace("\n"," "))
-      return message
+      self.__log.log("Sending Trade update: " + message.replace("\n", " "))
+      return message, image
     else:
-      self.__log.log("Dropping Trade update: " + message.replace("\n"," "))
+      self.__log.log("Dropping Trade update: " + message.replace("\n", " "))
       return None
 
   def __parse_trade_assets(self, trade_asset_string):

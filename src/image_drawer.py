@@ -18,20 +18,20 @@ class ImageDrawer:
             font_size = round(self._height / 10)
         self._font = ImageFont.truetype(font, font_size)
 
-    def put_teams_on_image(self, team1, team2):
+    def put_teams_on_image(self, team1, team2, binary = False):
         image = self._base_image.copy()
         draw = ImageDraw.Draw(image)
 
         draw.multiline_text(
             xy=(self._offset, self._offset),
-            text='\n'.join(team1.split()),
+            text='\n'.join(self.__split_team_name(team1)),
             font=self._font,
             fill="black",
             align="left"
         )
 
         # Calculate pos for second text
-        t2 = team2.split()
+        t2 = self.__split_team_name(team2)
         w2 = 0
         h2 = 0
         for t in t2:
@@ -47,21 +47,33 @@ class ImageDrawer:
             fill="black",
             align="right"
         )
-        return image
 
-    def to_binary(self, image=None):
-        if not image:
-            image = self._base_image
+        return self.__to_binary(image) if binary else image
 
+    @staticmethod
+    def __split_team_name(team_name):
+        name_list = team_name.split()
+        line1 = ""
+        line2 = ""
+        while len(name_list) > 0:
+            if len(line1) <= len(line2):
+                line1 = line1 + " " + name_list.pop(0)
+            else:
+                line2 = line2 + " " + name_list.pop()
+        return [line1.strip(), line2.strip()]
+
+    @staticmethod
+    def __to_binary(image):
         bytes_io = BytesIO()
         bytes_io.seek(0)
         image.save(bytes_io, format="png")
         bytes_io.seek(0)
         return bytes_io
 
-id = ImageDrawer(base_image='../images/division02.png', font='../images/BAUHS93.ttf')
-im = id.put_teams_on_image("GLORIOUS RUSSIANS", "ROYAL AMERICANS")
 
-from telegrambot import TelegramBot
-bot = TelegramBot()
-bot.send_message("Тестовый трейд между какими-то лохами", id.to_binary(im))
+#id = ImageDrawer(base_image='../images/DIV05.png', font='../images/BAUHS93.ttf')
+#im = id.put_teams_on_image( "LINKOR October Revolution", "The Louserville Redemption", binary=True)
+
+#from telegrambot import TelegramBot
+#bot = TelegramBot()
+#bot.send_message("Тестовый трейд между какими-то лохами", im)

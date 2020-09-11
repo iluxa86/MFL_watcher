@@ -4,6 +4,7 @@ year = '2020'
 league_id = secret.league_id
 update_period_sec = 60
 tradewatcher_enabled = True
+tradewatcher_images_enabled = True
 draftwatcher_enabled = False
 draftwatcher_images_enabled = True
 waiverwatcher_enabled = True
@@ -57,6 +58,15 @@ mflwatcher = {
   'draft_verbs': ('picks', 'selects', 'steals', 'chooses'),
 
   'div_map': secret.div_names_map,
+  'div_images': {
+    "DIVISION00": "../images/DIV01.png",
+    "DIVISION01": "../images/DIV02.png",
+    "DIVISION02": "../images/DIV03.png",
+    "DIVISION03": "../images/DIV04.png",
+    "DIVISION04": "../images/DIV05.png",
+    "DIVISION05": "../images/DIV06.png"
+  },
+  'image_font_file': '../images/BAUHS93.ttf',
 
   # Filter out trades from these divs:
   'tradewatcher_filter': secret.tradewatcher_filterout_divs,

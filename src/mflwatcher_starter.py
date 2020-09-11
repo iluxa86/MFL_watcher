@@ -39,7 +39,7 @@ def mflwatcher():
     if cfg.tradewatcher_enabled:
       updates = tw.get_trade_update()
       for update in updates:
-        bot.send_message(update)
+        bot.send_message(update[0], binary_image=update[1])
         sleep(10)
 
     schedule.run_pending()
