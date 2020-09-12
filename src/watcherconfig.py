@@ -66,7 +66,7 @@ mflwatcher = {
     "DIVISION04": "../images/DIV05.png",
     "DIVISION05": "../images/DIV06.png"
   },
-  'image_font_file': '../images/BAUHS93.ttf',
+  'image_font_file': '../images/Deadpool Movie.otf',
 
   # Filter out trades from these divs:
   'tradewatcher_filter': secret.tradewatcher_filterout_divs,

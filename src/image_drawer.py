@@ -15,7 +15,7 @@ class ImageDrawer:
         self._width = self._base_image.width
 
         if not font_size:
-            font_size = round(self._height / 10)
+            font_size = round(self._height / 12)
         self._font = ImageFont.truetype(font, font_size)
 
     def put_teams_on_image(self, team1, team2, binary = False):
@@ -70,10 +70,16 @@ class ImageDrawer:
         bytes_io.seek(0)
         return bytes_io
 
+def test():
+    id = ImageDrawer(base_image='../images/DIV03.png', font='../images/Deadpool Movie.otf')
+    im = id.put_teams_on_image( "LINKOR October Revolution", "The Louserville Redemption", binary=True)
+    #im = id.put_teams_on_image( "Los Angeles Prairie Dogs", "The Children of Captain Grant", binary=True)
 
-#id = ImageDrawer(base_image='../images/DIV05.png', font='../images/BAUHS93.ttf')
-#im = id.put_teams_on_image( "LINKOR October Revolution", "The Louserville Redemption", binary=True)
+    with open("../images/result.png", "wb") as outfile:
+        # Copy the BytesIO stream to the output file
+        outfile.write(im.getbuffer())
+    outfile.close()
 
-#from telegrambot import TelegramBot
-#bot = TelegramBot()
-#bot.send_message("Тестовый трейд между какими-то лохами", im)
+    from telegrambot import TelegramBot
+    bot = TelegramBot()
+    bot.send_message("Тестовый трейд между какими-то лохами", im)
