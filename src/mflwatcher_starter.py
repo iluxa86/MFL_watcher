@@ -27,7 +27,7 @@ def mflwatcher():
 
   # Scheduled events
   if cfg.waiverwatcher_enabled:
-    cfg.waiverwatcher_schedule.do(waiverupdates())
+    cfg.waiverwatcher_schedule.do(waiverupdates)
 
   if cfg.weeksummarywatcher_enabled:
     cfg.weeksummarywatcher_schedule.do(lambda: bot.send_message(weekly_summary.get_week_summary()))
