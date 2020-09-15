@@ -117,8 +117,11 @@ class trade_watcher:
 
     image = None
     if cfg.tradewatcher_images_enabled:
-      id = ImageDrawer(self.__div_image_files_map[div_id], self.__image_font_file)
-      image = id.put_teams_on_image(f1['name'], f2['name'], binary= True)
+      try:
+        id = ImageDrawer(self.__div_image_files_map[div_id], self.__image_font_file)
+        image = id.put_teams_on_image(f1['name'], f2['name'], binary= True)
+      except Exception as e:
+        self.__log.log("Failed to create an image: %s" % e)
 
     message = "Trade Alert for %s division!\n" % (div_name) + \
               "Franchise %s gave up:\n%s\n\nFranchise %s gave up:\n%s\n\n#trade" % (f1['name'], a1, f2['name'], a2)

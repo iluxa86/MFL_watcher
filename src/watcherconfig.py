@@ -66,7 +66,7 @@ mflwatcher = {
     "DIVISION04": "images/DIV05.png",
     "DIVISION05": "images/DIV06.png"
   },
-  'image_font_file': '../images/Deadpool Movie.otf',
+  'image_font_file': 'images/Deadpool Movie.otf',
 
   'waiver_images': {
       "DIVISION00": "images/WAIVER-DIV01.gif",
