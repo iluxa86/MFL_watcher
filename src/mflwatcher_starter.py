@@ -9,9 +9,7 @@ from tradewatcher import trade_watcher
 from waiverwatcher import waiver_watcher
 from weeksummarywatcher import weeksummary_watcher
 from time import sleep
-import daemon
 import schedule
-from daemon import pidfile
 
 def mflwatcher():
   bot = TelegramBot()
@@ -21,24 +19,28 @@ def mflwatcher():
   ww = waiver_watcher(cache)
   weekly_summary = weeksummary_watcher(cache)
 
+  def waiverupdates():
+    updates = ww.get_waiver_updates()
+    for update in updates:
+      bot.send_message(update[0], binary_image=update[1], GIF=True)
+      sleep(10)
+
   # Scheduled events
   if cfg.waiverwatcher_enabled:
-    cfg.waiverwatcher_schedule.do(lambda :bot.send_messages(ww.get_waiver_updates()))
+    cfg.waiverwatcher_schedule.do(waiverupdates())
 
   if cfg.weeksummarywatcher_enabled:
-    cfg.weeksummarywatcher_schedule.do(lambda :bot.send_message(weekly_summary.get_week_summary()))
+    cfg.weeksummarywatcher_schedule.do(lambda: bot.send_message(weekly_summary.get_week_summary()))
 
   # Permanently checking events
   while True:
     if cfg.draftwatcher_enabled:
-      updates = dw.get_draft_update()
-      for update in updates:
+      for update in  dw.get_draft_update():
         bot.send_message(update[0], binary_image=update[1])
         sleep(10)
 
     if cfg.tradewatcher_enabled:
-      updates = tw.get_trade_update()
-      for update in updates:
+      for update in tw.get_trade_update():
         bot.send_message(update[0], binary_image=update[1])
         sleep(10)
 
@@ -46,6 +48,8 @@ def mflwatcher():
     sleep(cfg.update_period_sec)
 
 def mflwatcher_daemon():
+  import daemon
+  from daemon import pidfile
   import os
 
   dir_path = os.getcwd()

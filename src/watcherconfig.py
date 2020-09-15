@@ -68,6 +68,15 @@ mflwatcher = {
   },
   'image_font_file': '../images/Deadpool Movie.otf',
 
+  'waiver_images': {
+      "DIVISION00": "../images/WAIVER-DIV01.gif",
+      "DIVISION01": "../images/WAIVER-DIV02.gif",
+      "DIVISION02": "../images/WAIVER-DIV03.gif",
+      "DIVISION03": "../images/WAIVER-DIV04.gif",
+      "DIVISION04": "../images/WAIVER-DIV05.gif",
+      "DIVISION05": "../images/WAIVER-DIV06.gif"
+    },
+
   # Filter out trades from these divs:
   'tradewatcher_filter': secret.tradewatcher_filterout_divs,
 

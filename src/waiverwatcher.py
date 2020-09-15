@@ -11,6 +11,7 @@ from mflcache import mfl_cache
 
 class waiver_watcher:
   __api_get_waiver = cfg.mflwatcher['api']['waiver']
+  __div_image_files_map = cfg.mflwatcher['waiver_images']
 
   # MFL info cache
   __mflcache = None
@@ -56,30 +57,26 @@ class waiver_watcher:
       self.__log.log(traceback.format_exc())
 
     updates_list = list()
-    updates_list.append("WAIVER RESULTS for this week\n#waiver")
-    for div in waivers_dict.keys():
+    # updates_list.append(("WAIVER RESULTS for this week\n#waiver", None))
+    for div_id in waivers_dict.keys():
       division_update = []
-      division_update.append("Division: %s:" % div)
-      for update in waivers_dict[div]:
+      division_update.append("Division: %s:" % self.__mflcache.get_divname_by_id(div_id))
+      for update in waivers_dict[div_id]:
         division_update.append(update)
-      updates_list.append('\n'.join(division_update))
+      image = self.__image_for_div(div_id)
+      updates_list.append(('\n'.join(division_update), image))
 
-    self.__log.log("WAIVER RESULTS ARE:\n%s" % '\n'.join(updates_list))
+    self.__log.log("WAIVER RESULTS ARE:\n")
+    for update in updates_list:
+      self.__log.log(update)
     return updates_list
 
   # Returns None if update should not exist
   def __convert_transaction_to_message(self, transaction):
-
     f = self.__mflcache.get_franchise_by_id(transaction['franchise'])
     div_id = "DIVISION" + f['division']
-    div_name = self.__mflcache.get_divname_by_id(div_id)
-
-    if (not div_name):
-      div_name = div_id
-
     waiver_message = self.__parse_waiver_transaction(transaction['transaction'])
-
-    return (div_name, "Franchise %s %s" % (f['name'], waiver_message))
+    return (div_id, "Franchise %s %s" % (f['name'], waiver_message))
 
   def __parse_waiver_transaction(self, waiver_string):
     waiver_info = waiver_string.replace(",","").split("|")
@@ -94,3 +91,10 @@ class waiver_watcher:
       message = "%s and dropped %s %s [%s]" % (message, dropped['name'], dropped['position'], dropped['team'])
 
     return message
+
+  def __image_for_div(self, div_id):
+    file = self.__div_image_files_map[div_id]
+    try:
+        return open(file, "rb")
+    except FileNotFoundError:
+        return None
