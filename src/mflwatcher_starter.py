@@ -21,24 +21,27 @@ def mflwatcher():
   ww = waiver_watcher(cache)
   weekly_summary = weeksummary_watcher(cache)
 
+  def waiverupdates():
+    for update in ww.get_waiver_updates():
+      bot.send_message(update[0], update[1], GIF=True)
+      sleep(10)
+
   # Scheduled events
   if cfg.waiverwatcher_enabled:
-    cfg.waiverwatcher_schedule.do(lambda :bot.send_messages(ww.get_waiver_updates()))
+    cfg.waiverwatcher_schedule.do(waiverupdates())
 
   if cfg.weeksummarywatcher_enabled:
-    cfg.weeksummarywatcher_schedule.do(lambda :bot.send_message(weekly_summary.get_week_summary()))
+    cfg.weeksummarywatcher_schedule.do(lambda: bot.send_message(weekly_summary.get_week_summary()))
 
   # Permanently checking events
   while True:
     if cfg.draftwatcher_enabled:
-      updates = dw.get_draft_update()
-      for update in updates:
+      for update in  dw.get_draft_update():
         bot.send_message(update[0], binary_image=update[1])
         sleep(10)
 
     if cfg.tradewatcher_enabled:
-      updates = tw.get_trade_update()
-      for update in updates:
+      for update in tw.get_trade_update():
         bot.send_message(update[0], binary_image=update[1])
         sleep(10)
 

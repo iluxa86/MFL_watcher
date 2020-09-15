@@ -15,7 +15,7 @@ class TelegramBot():
         self.__log = logger(self.__class__)
         self.__bot = telegram.Bot(self.__bot_token)
 
-    def send_message(self, message, binary_image=None):
+    def send_message(self, message, binary_image=None, GIF=False):
         self.__log.log("SENDING MESSAGE WITH LENGTH: %s" % len(message))
 
         try:
@@ -23,11 +23,16 @@ class TelegramBot():
                 # Sending image w caption
                 if len(message) > 1023:
                     # Splitting image and caption
-                    self.__bot.send_photo(self.__chat_name, binary_image)
+                    if GIF:
+                        self.__bot.send_animation(self.__chat_name, binary_image)
+                    else:
+                        self.__bot.send_photo(self.__chat_name, binary_image)
                     self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)
                 else:
-                    self.__bot.send_photo(self.__chat_name, binary_image,
-                                          caption=message, parse_mode=telegram.ParseMode.HTML)
+                    if GIF:
+                        self.__bot.send_animation(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
+                    else:
+                        self.__bot.send_photo(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
             else:
                 # Sending text only
                 self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)

@@ -69,17 +69,3 @@ class ImageDrawer:
         image.save(bytes_io, format="png")
         bytes_io.seek(0)
         return bytes_io
-
-def test():
-    id = ImageDrawer(base_image='../images/DIV03.png', font='../images/Deadpool Movie.otf')
-    im = id.put_teams_on_image( "LINKOR October Revolution", "The Louserville Redemption", binary=True)
-    #im = id.put_teams_on_image( "Los Angeles Prairie Dogs", "The Children of Captain Grant", binary=True)
-
-    with open("../images/result.png", "wb") as outfile:
-        # Copy the BytesIO stream to the output file
-        outfile.write(im.getbuffer())
-    outfile.close()
-
-    from telegrambot import TelegramBot
-    bot = TelegramBot()
-    bot.send_message("Тестовый трейд между какими-то лохами", im)
