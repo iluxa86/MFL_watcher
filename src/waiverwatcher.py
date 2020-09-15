@@ -57,7 +57,7 @@ class waiver_watcher:
       self.__log.log(traceback.format_exc())
 
     updates_list = list()
-    updates_list.append("WAIVER RESULTS for this week\n#waiver")
+    # updates_list.append(("WAIVER RESULTS for this week\n#waiver", None))
     for div_id in waivers_dict.keys():
       division_update = []
       division_update.append("Division: %s:" % self.__mflcache.get_divname_by_id(div_id))
@@ -93,8 +93,8 @@ class waiver_watcher:
     return message
 
   def __image_for_div(self, div_id):
-    self.__div_image_files_map[div_id]
+    file = self.__div_image_files_map[div_id]
     try:
-        return open("../images/WAIVER-DIV06.gif", "rb")
+        return open(file, "rb")
     except FileNotFoundError:
         return None
