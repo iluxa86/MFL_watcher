@@ -9,6 +9,8 @@ draftwatcher_enabled = False
 draftwatcher_images_enabled = True
 waiverwatcher_enabled = True
 weeksummarywatcher_enabled = True
+run_once = True
+scheduled_tasks_file = 'var/scheduler.yaml'
 
 # For docker it should be False
 daemon = False
