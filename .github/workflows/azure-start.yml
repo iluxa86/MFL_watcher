@@ -1,8 +1,7 @@
-name: "Build_Deploy_New_Azure_Container"
+name: "Trigger_Azure_Container"
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: "*/5 * * * *"
 
 jobs:
     build-and-deploy:
@@ -11,23 +10,13 @@ jobs:
         # checkout the repo
         - name: 'Checkout GitHub Action'
           uses: actions/checkout@master
-          
+
         - name: 'Login via Azure CLI'
           uses: azure/login@v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
-        - name: 'Build and push image'
-          uses: azure/docker-login@v1
-          with:
-            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-            username: ${{ secrets.REGISTRY_USERNAME }}
-            password: ${{ secrets.REGISTRY_PASSWORD }}
-        - run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
 
-        - name: 'Deploy to Azure Container Instances'
+        - name: 'Trigger Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
