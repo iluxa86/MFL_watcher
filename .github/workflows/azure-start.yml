@@ -33,4 +33,4 @@ jobs:
             azure-file-volume-share-name: 'mflwatcher-storage'
             azure-file-volume-mount-path: '/app/storage/'
             location: 'eastus'
-            restart-policy: 'Never'
+            restart-policy: Never
