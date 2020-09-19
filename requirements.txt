@@ -4,3 +4,4 @@ schedule
 Pillow
 Google-Images-Search
 python-telegram-bot
+PyYAML

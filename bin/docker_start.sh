@@ -12,6 +12,12 @@ then
         ln -sf $(realpath storage/var) var
 fi
 
+if [ -e storage/log ]
+then
+        rm -rf log
+        ln -sf $(realpath storage/log) log
+fi
+
 if [ -e storage/cfg ]
 then
   for file in storage/cfg/*
