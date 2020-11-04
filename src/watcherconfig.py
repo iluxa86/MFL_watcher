@@ -23,7 +23,8 @@ telegram = {
 
 # Waiverwatcher schedule
 # Runs only according to this schedule
-waiverwatcher_schedule = schedule.every().wednesday.at("09:10")
+#waiverwatcher_schedule = schedule.every().wednesday.at("10:15")
+waiverwatcher_schedule = schedule.every().wednesday.at("14:25")
 
 # Weeksummarywatcher schedule
 # Runs only according to this schedule
