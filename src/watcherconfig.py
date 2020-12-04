@@ -13,7 +13,7 @@ run_once = False
 scheduled_tasks_file = 'var/scheduler.yaml'
 
 # For docker it should be False
-daemon = False
+daemon = secret.daemon if secret.daemon else False
 
 # Telegram integration settings
 telegram = {
