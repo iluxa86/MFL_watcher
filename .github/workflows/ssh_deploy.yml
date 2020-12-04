@@ -1,0 +1,18 @@
+name: "SSHDeploy_To_VM"
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Deploy new version via SSH
+          uses: JimCronqvist/action-ssh@master
+          with:
+            hosts: ${{ secrets.SSH_HOST }}
+            privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+            debug: false
+            command: |
+              cd ~/MFL_watcher && ./bin/stop.sh && git pull && sleep 1 && ./bin/start.sh
