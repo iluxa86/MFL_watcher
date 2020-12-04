@@ -13,6 +13,5 @@ jobs:
           with:
             hosts: ${{ secrets.SSH_HOST }}
             privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-            debug: false
-            command: |
-              cd ~/MFL_watcher && ./bin/stop.sh && git pull && sleep 1 && ./bin/start.sh
+            debug: true
+            command: ls -lah
