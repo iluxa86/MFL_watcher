@@ -9,14 +9,14 @@ then
   if ps -p $PID > /dev/null
   then
     echo "$PID - RUNNING"
-    exit 0
+    #exit 0
   else
     echo "$PID - STOPPED"
-    exit 1
+    #exit 1
   fi
 else
   echo "NO PID - STOPPED"
-  exit 2
+  #exit 2
 fi
 
 
