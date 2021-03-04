@@ -30,7 +30,7 @@ jobs:
           CI: true
 
       - name: Start MFL watcher
-          uses: garygrossgarten/github-action-ssh@release
+        uses: garygrossgarten/github-action-ssh@release
           with:
             command: cd ~mflwatcher/MFL_watcher/ && sudo -u mflwatcher ./bin/start.sh
             host: ${{ secrets.SSH_HOST }}
