@@ -1,4 +1,4 @@
-name: Command via SSH
+name: Deploy via SSH
 on:
   push:
     branches:
@@ -18,21 +18,3 @@ jobs:
           privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
         env:
           CI: true
-      - name: Pull latest version
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: cd ~mflwatcher/MFL_watcher/ && sudo -u mflwatcher git pull
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
-        env:
-          CI: true
-      - name: Start MFL watcher
-          uses: garygrossgarten/github-action-ssh@release
-          with:
-            command: cd ~mflwatcher/MFL_watcher/ && sudo -u mflwatcher ./bin/start.sh
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
-          env:
-            CI: true
