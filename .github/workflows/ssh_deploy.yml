@@ -1,17 +1,21 @@
-name: "SSHDeploy_To_VM"
+name: Command via SSH
 on:
   push:
     branches:
       - master
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Deploy new version via SSH
-          uses: JimCronqvist/action-ssh@master
-          with:
-            hosts: ${{ secrets.SSH_HOST }}
-            privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-            debug: true
-            command: ls -lah
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ls -a via OPEN SSH Private Key
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ls -a
+          host: ${{ secrets.SSH_HOST }}
+          username: mflwatcher
+          #password: ${{ secrets.SSH_HOST }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
+        env:
+          CI: true
