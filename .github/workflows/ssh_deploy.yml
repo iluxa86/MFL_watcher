@@ -38,3 +38,13 @@ jobs:
           privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
         env:
           CI: true
+
+      - name: Tail MFL watcher log
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cd ~mflwatcher/MFL_watcher/ && sudo -u mflwatcher tail -30 log/mflwatcher.log
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
+        env:
+          CI: true

@@ -1,55 +1,33 @@
-name: "Build_Deploy_New_Azure_Container"
+name: Test Docker Build
+
 on:
   push:
     branches:
-      - master
+      - 'master'
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        steps:
-        # checkout the repo
-        - name: 'Checkout GitHub Action'
-          uses: actions/checkout@master
-          
-        - name: 'Login via Azure CLI'
-          uses: azure/login@v1
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
-        - name: 'Build and push image'
-          uses: azure/docker-login@v1
-          with:
-            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-            username: ${{ secrets.REGISTRY_USERNAME }}
-            password: ${{ secrets.REGISTRY_PASSWORD }}
-        - run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
-#docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Docker Build
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: user/app:latest
 
-#        - name: 'Deploy to Azure Container Instances'
-#          uses: 'azure/aci-deploy@v1'
-#          with:
-#            resource-group: ${{ secrets.RESOURCE_GROUP }}
-#            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-#            name: mfl-watcher
-#            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
-#            cpu: 1
-#            memory: 1
-#            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-#            registry-username: ${{ secrets.REGISTRY_USERNAME }}
-#            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-#            azure-file-volume-account-name: ${{ secrets.VOLUME_ACCOUNT_NAME }}
-#            azure-file-volume-account-key: ${{ secrets.VOLUME_ACCOUNT_KEY }}
-#            azure-file-volume-share-name: 'mflwatcher-storage'
-#            azure-file-volume-mount-path: '/app/storage/'
-#            location: 'eastus'
-#            restart-policy: "Always"
-
-#name: "Trigger_Azure_Container"
+#name: "Build_Deploy_New_Azure_Container"
 #on:
-#  schedule:
-#    - cron: "*/5 * * * *"
+#  push:
+#    branches:
+#      - master
 #
 #jobs:
 #    build-and-deploy:
@@ -64,21 +42,68 @@ jobs:
 #          with:
 #            creds: ${{ secrets.AZURE_CREDENTIALS }}
 #
-#        - name: 'Trigger Azure Container Instances'
-#          uses: 'azure/aci-deploy@v1'
+#        - name: 'Build and push image'
+#          uses: azure/docker-login@v1
 #          with:
-#            resource-group: ${{ secrets.RESOURCE_GROUP }}
-#            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-#            name: mfl-watcher
-#            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
-#            cpu: 1
-#            memory: 1
-#            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-#            registry-username: ${{ secrets.REGISTRY_USERNAME }}
-#            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-#            azure-file-volume-account-name: ${{ secrets.VOLUME_ACCOUNT_NAME }}
-#            azure-file-volume-account-key: ${{ secrets.VOLUME_ACCOUNT_KEY }}
-#            azure-file-volume-share-name: 'mflwatcher-storage'
-#            azure-file-volume-mount-path: '/app/storage/'
-#            location: 'eastus'
-#            restart-policy: "Always"
+#            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+#            username: ${{ secrets.REGISTRY_USERNAME }}
+#            password: ${{ secrets.REGISTRY_PASSWORD }}
+#        - run: |
+#            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+##docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+#
+##        - name: 'Deploy to Azure Container Instances'
+##          uses: 'azure/aci-deploy@v1'
+##          with:
+##            resource-group: ${{ secrets.RESOURCE_GROUP }}
+##            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+##            name: mfl-watcher
+##            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+##            cpu: 1
+##            memory: 1
+##            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+##            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+##            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+##            azure-file-volume-account-name: ${{ secrets.VOLUME_ACCOUNT_NAME }}
+##            azure-file-volume-account-key: ${{ secrets.VOLUME_ACCOUNT_KEY }}
+##            azure-file-volume-share-name: 'mflwatcher-storage'
+##            azure-file-volume-mount-path: '/app/storage/'
+##            location: 'eastus'
+##            restart-policy: "Always"
+#
+##name: "Trigger_Azure_Container"
+##on:
+##  schedule:
+##    - cron: "*/5 * * * *"
+##
+##jobs:
+##    build-and-deploy:
+##        runs-on: ubuntu-latest
+##        steps:
+##        # checkout the repo
+##        - name: 'Checkout GitHub Action'
+##          uses: actions/checkout@master
+##
+##        - name: 'Login via Azure CLI'
+##          uses: azure/login@v1
+##          with:
+##            creds: ${{ secrets.AZURE_CREDENTIALS }}
+##
+##        - name: 'Trigger Azure Container Instances'
+##          uses: 'azure/aci-deploy@v1'
+##          with:
+##            resource-group: ${{ secrets.RESOURCE_GROUP }}
+##            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+##            name: mfl-watcher
+##            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mfl-watcher:${{ github.sha }}
+##            cpu: 1
+##            memory: 1
+##            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+##            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+##            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+##            azure-file-volume-account-name: ${{ secrets.VOLUME_ACCOUNT_NAME }}
+##            azure-file-volume-account-key: ${{ secrets.VOLUME_ACCOUNT_KEY }}
+##            azure-file-volume-share-name: 'mflwatcher-storage'
+##            azure-file-volume-mount-path: '/app/storage/'
+##            location: 'eastus'
+##            restart-policy: "Always"
