@@ -136,6 +136,9 @@ class draft_watcher:
     return (message, player_image)
 
   def __find_new_picks_for_div(self, div_id, draft_unit_dict):
+    if 'draftPick' not in draft_unit_dict:
+      return []
+
     picks = draft_unit_dict['draftPick']
     new_picks = list()
 
