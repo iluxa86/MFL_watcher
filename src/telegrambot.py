@@ -3,6 +3,7 @@ import sys
 from logger import logger
 import traceback
 import telegram
+import telegram.error
 import time
 
 class TelegramBot():
@@ -20,25 +21,33 @@ class TelegramBot():
 
         try:
             if binary_image:
-                # Sending image w caption
-                if len(message) > 1023:
-                    # Splitting image and caption
-                    if GIF:
-                        self.__bot.send_animation(self.__chat_name, binary_image)
+                try:
+                    # Sending image w caption
+                    if len(message) > 1023:
+                        # Splitting image and caption
+                        if GIF:
+                            self.__bot.send_animation(self.__chat_name, binary_image)
+                        else:
+                            self.__bot.send_photo(self.__chat_name, binary_image)
+                        self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)
                     else:
-                        self.__bot.send_photo(self.__chat_name, binary_image)
+                        if GIF:
+                            self.__bot.send_animation(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
+                        else:
+                            self.__bot.send_photo(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
+                except telegram.NetworkError as e:
+                    self.__log.log(e)
+                    self.__log.log(sys.exc_info()[0])
+                    self.__log.log(traceback.format_exc())
+                    self.__log.log("UNABLE TO SEND MEDIA MESSAGE. TRYING TO SEND PLAIN TEXT")
                     self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)
-                else:
-                    if GIF:
-                        self.__bot.send_animation(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
-                    else:
-                        self.__bot.send_photo(self.__chat_name, binary_image, caption=message, parse_mode=telegram.ParseMode.HTML)
             else:
                 # Sending text only
                 self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)
             return True
-        except:
+        except telegram.TelegramError as e:
             self.__log.log("UNABLE TO SEND MESSAGE")
+            self.__log.log(e)
             self.__log.log(sys.exc_info()[0])
             self.__log.log(traceback.format_exc())
             return False

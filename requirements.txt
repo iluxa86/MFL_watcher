@@ -1,3 +1,4 @@
+telegram
 python-daemon
 requests
 schedule
