@@ -45,9 +45,8 @@ class TelegramBot():
                 # Sending text only
                 self.__bot.send_message(self.__chat_name, message, parse_mode=telegram.ParseMode.HTML)
             return True
-        except telegram.TelegramError as e:
+        except:
             self.__log.log("UNABLE TO SEND MESSAGE")
-            self.__log.log(e)
             self.__log.log(sys.exc_info()[0])
             self.__log.log(traceback.format_exc())
             return False
