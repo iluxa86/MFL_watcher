@@ -66,7 +66,8 @@ mflwatcher = {
     "DIVISION02": "images/DIV03.png",
     "DIVISION03": "images/DIV04.png",
     "DIVISION04": "images/DIV05.png",
-    "DIVISION05": "images/DIV06.png"
+    "DIVISION05": "images/DIV06.png",
+    "DIVISION06": "images/DIV07.png"
   },
   'image_font_file': 'images/Deadpool Movie.otf',
 
@@ -76,7 +77,8 @@ mflwatcher = {
       "DIVISION02": "images/WAIVER-DIV03.gif",
       "DIVISION03": "images/WAIVER-DIV04.gif",
       "DIVISION04": "images/WAIVER-DIV05.gif",
-      "DIVISION05": "images/WAIVER-DIV06.gif"
+      "DIVISION05": "images/WAIVER-DIV06.gif",
+      "DIVISION06": "images/WAIVER-DIV07.gif"
     },
 
   # Filter out trades from these divs:
